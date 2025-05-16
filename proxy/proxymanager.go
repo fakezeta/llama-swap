@@ -334,31 +334,7 @@ func (pm *ProxyManager) upstreamIndex(c *gin.Context) {
 
 	// Iterate over sorted keys
 	for _, modelID := range modelIDs {
-		// Get process state
-		processGroup := pm.findGroupByModelName(modelID)
-		var state string
-		if processGroup != nil {
-			process := processGroup.processes[modelID]
-			if process != nil {
-				var stateStr string
-				switch process.CurrentState() {
-				case StateReady:
-					stateStr = "Ready"
-				case StateStarting:
-					stateStr = "Starting"
-				case StateStopping:
-					stateStr = "Stopping"
-				case StateFailed:
-					stateStr = "Failed"
-				case StateShutdown:
-					stateStr = "Shutdown"
-				default:
-					stateStr = "Unknown"
-				}
-				state = stateStr
-			}
-		}
-		html.WriteString(fmt.Sprintf("<li><a href=\"/upstream/%s\">%s</a> - %s</li>", modelID, modelID, state))
+		html.WriteString(fmt.Sprintf("<li><a href=\"/upstream/%s\">%s</a></li>", modelID, modelID))
 	}
 	html.WriteString("</ul></body></html>")
 	c.Header("Content-Type", "text/html")
